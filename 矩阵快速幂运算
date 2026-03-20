@@ -1,0 +1,17 @@
+void matrix_multiply(...){
+    ...
+}
+void matrix_pow(int base[2][2],int n,int result[2][2]){
+    //初始化result数组为单位矩阵
+    result[0][0]=1;result[0][1]=0;
+    result[1][0]=0;result[1][1]=1;
+    int temp[2][2];
+    memcpy(temp,base,sizeof(temp));
+    while(n!=0){
+        if(n&1){
+            matrix_multiply(result,temp,result);//result和temp矩阵相乘，结果返回给result
+        }
+        matrix_multiply(temp,temp,temp);
+        n>>=1;
+    }
+}
