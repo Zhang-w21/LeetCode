@@ -1,0 +1,11 @@
+int QuickPower(int init_elem,int num){
+  int temp=1;
+  while(num!=0){
+      if(num&1){
+          temp = temp*init_elem;
+      }
+      temp = temp*temp;
+      num >>= 1;
+  }
+return temp;
+}
