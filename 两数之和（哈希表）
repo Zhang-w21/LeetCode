@@ -1,0 +1,36 @@
+struct HashTable{
+    int key;
+    int val;
+    UT_hash_handle hh;
+};
+struct HashTable* hashtable;
+struct HashTable* find(int ikey){
+    struct HashTable* tmp;
+    HASH_FIND_INT(hashtable,&ikey,tmp);
+    return tmp;
+}
+void insert(int ikey,int ival){
+    struct HashTable* it = find(ikey);
+    if(it==NULL){
+        struct HashTable*tmp=malloc(sizeof(struct HashTable));
+        tmp->key=ikey;tmp->val=ival;
+        HASH_ADD_INT(hashtable,key,tmp);
+    }else{
+        it->val=ival;
+    }
+}
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+    hashtable=NULL;
+    for(int i=0;i<numsSize;i++){
+        struct HashTable*it=find(target-nums[i]);
+        if(it!=NULL){
+            int *ret=malloc(sizeof(int)*2);
+            ret[0]=it->val;ret[1]=i;
+            *returnSize=2;
+            return ret;
+        }
+        insert(nums[i],i);
+    }
+    *returnSize=0;
+    return NULL;
+}
