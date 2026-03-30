@@ -1,0 +1,99 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    struct ListNode*p1=l1;
+    struct ListNode*p2=l2;
+    struct ListNode*head=NULL;
+    struct ListNode*p=NULL;
+    int num=0;
+    while(p1!=NULL&&p2!=NULL){
+        struct ListNode*node=(struct ListNode*)malloc(sizeof(struct ListNode));
+        if((p1->val+p2->val+num)/10==1){//定义一个num实现进位操作
+            node->val=(p1->val+p2->val+num)%10;
+            node->next=NULL;
+            if(head==NULL){
+                head=p=node;
+                p1=p1->next;
+                p2=p2->next;
+                num=1;
+            }
+            else{
+                p->next=node;
+                p=node;
+                p1=p1->next;
+                p2=p2->next;
+                num=1;
+            }
+        }//进位情况
+        else{
+            node->val=(p1->val+p2->val+num);//不考虑进位问题
+            node->next=NULL;
+            if(head==NULL){
+                head=p=node;
+                p1=p1->next;
+                p2=p2->next;
+                num=0;
+            }
+            else{
+                p->next=node;
+                p=node;
+                p1=p1->next;
+                p2=p2->next;
+                num=0;
+            }
+        }
+    }
+    //将更长的链表剩余元素添加到新链表中
+    while(p1!=NULL||p2!=NULL){
+        if(p1!=NULL){
+        struct ListNode*node=(struct ListNode*)malloc(sizeof(struct ListNode));
+        if((p1->val+num)/10==1){
+            node->val=(p1->val+num)%10;
+            node->next=NULL;
+            p->next=node;
+            p=node;
+            p1=p1->next;
+            num=1;
+        }else{
+           node->val=p1->val+num;
+            node->next=NULL;
+            p->next=node;
+            p=node;
+            p1=p1->next; 
+            num=0;
+        }
+    }
+        if(p2!=NULL){
+            struct ListNode*node=(struct ListNode*)malloc(sizeof(struct ListNode));
+            if((p2->val+num)/10==1){
+                node->val=(p2->val+num)%10;
+                node->next=NULL;
+                p->next=node;
+                p=node;
+                p2=p2->next;
+                num=1;
+            }else{
+            node->val=p2->val+num;
+                node->next=NULL;
+                p->next=node;
+                p=node;
+                p2=p2->next; 
+                num=0;
+            }
+    }
+    }
+    if(p1==NULL&&p2==NULL&&num==1){
+        struct ListNode*node=(struct ListNode*)malloc(sizeof(struct ListNode));
+        node->val=1;
+        node->next=NULL;
+        p->next=node;
+        p=node;
+        num=0;
+    }
+    return head;
+}
