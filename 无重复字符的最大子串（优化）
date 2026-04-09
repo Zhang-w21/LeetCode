@@ -1,0 +1,16 @@
+int lengthOfLongestSubstring(char* s) {
+    int n=strlen(s);
+    int table[128];//table数组记录每个数字上一次出现的位置
+    for(int i=0;i<128;i++){
+        table[i]=-1;//-1表示该数字没有出现过
+    }
+    int left=0;//左指针
+    int length=0;
+    for(int right=0;right<n;right++){
+        if(table[s[right]]>=left)
+            left=table[s[right]]+1;//将left指向上一次该元素出现的下一个位置
+        table[s[right]]=right;//更新元素位置信息
+        length=(length>right-left+1)?length:right-left+1;
+    }
+    return length;
+}
