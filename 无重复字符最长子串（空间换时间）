@@ -1,0 +1,20 @@
+int lengthOfLongestSubstring(char* s) {
+    int n=strlen(s);
+    char table[128];
+    for(int i=0;i<128;i++){
+        table[i]=0;//0表示该数字没有出现过
+    }
+    int rear=-1;//右指针
+    int left=0;//左指针
+    int length=0;
+    for(int i=0;i<n;i++){
+        while(table[s[i]]==1){
+            table[s[left]]=0;//删除左指针指向的的那个字符
+            left=left+1;
+        }//滑动组块已经有了这个字符
+        table[s[i]]=1;
+        rear++;
+        length=(length>(rear-left+1))?length:rear-left+1;
+    }
+    return length;
+}
