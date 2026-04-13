@@ -1,0 +1,27 @@
+char* longestPalindrome(char* s) {
+    int n=strlen(s);//获取字符串长度
+    if(n<2)return s;
+    int maxlen=1;
+    int begin=0;
+    int dp[n][n];
+    for(int i=0;i<n;i++)dp[i][i]=true;//边界条件
+    for(int L=2;L<=n;L++){
+        for(int i=0;i<n;i++){
+            int j=L+i-1;//右边界
+            if(j>=n)break;
+            if(s[i]!=s[j])dp[i][j]=false;
+            else if(j-i+1<3)dp[i][j]=true;
+            else dp[i][j]=dp[i+1][j-1];
+            if(dp[i][j]&&maxlen<j-i+1){
+                maxlen=j-i+1;
+                begin=i;
+            }
+        }
+    }
+    char*ans=(char*)malloc(sizeof(char)*(maxlen+1));
+    for(int i=0;i<maxlen;i++){
+        ans[i]=s[begin+i];
+    }
+    ans[maxlen]='\0';
+    return ans;
+}
