@@ -1,0 +1,33 @@
+#define MaxSize 10000
+typedef struct stack{
+    char data[MaxSize];
+    int top;
+}stack;
+bool isValid(char* s) {
+    stack st;
+    st.top=-1;
+    int n=strlen(s);
+    for(int i=0;i<n;i++){
+        switch(s[i]){
+            case('('):
+                st.data[++st.top]='(';
+                break;
+            case('['):
+                st.data[++st.top]='[';
+                break;
+            case('{'):
+                st.data[++st.top]='{';
+                break;
+            case(')'):
+                if(st.top==-1||st.data[st.top--]!='(')return false;
+                break;
+            case(']'):
+                if(st.top==-1||st.data[st.top--]!='[')return false;
+                break;
+            case('}'):
+                if(st.top==-1||st.data[st.top--]!='{')return false;
+                break;
+        }
+    }
+    return st.top==-1;
+}
