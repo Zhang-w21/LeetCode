@@ -1,0 +1,40 @@
+#define MAX_SIZE 2000
+#define MaxSize 2000
+int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes) {
+    //边界判断
+    if(!root){
+        *returnSize=0;
+        return NULL;
+    }
+    //定义一个队列
+    struct TreeNode**queue=(struct TreeNode**)malloc(MaxSize*(sizeof(struct TreeNode*)));
+    int front=0,rear=0;
+    //定义一个答案数组
+    int**result=(int**)malloc(MaxSize*(sizeof(int*)));
+    //给returnColumnSizes分配内存
+    *returnColumnSizes=(int*)malloc(MaxSize*(sizeof(int)));
+    //将第一个元素加入队列
+    queue[rear++]=root;
+    //定义一个工作指针
+    struct TreeNode*p=root;
+    //初始化returnSize
+    *returnSize=0;
+    while(front<rear){
+        //定义一个该层的长度变量并将其加入returnColumnSizes数组中
+        int levelLen=rear-front;
+        (*returnColumnSizes)[*returnSize]=levelLen;
+        //定义一个该层的元素数组并将其加入到result数组中
+        int*levelArr=(int*)malloc(levelLen*(sizeof(int)));
+        result[*returnSize]=levelArr;
+        //将该层的所有元素依次加入levelArr中
+        for(int i=0;i<levelLen;i++){
+            p=queue[front++];//取出队头元素
+            levelArr[i]=p->val;
+            if(p->left)queue[rear++]=p->left;
+            if(p->right)queue[rear++]=p->right;
+        }
+        (*returnSize)++;//层数增加
+    }
+    free(queue);//释放queue空间
+    return result;
+}
