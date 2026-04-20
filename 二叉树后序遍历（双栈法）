@@ -1,0 +1,36 @@
+#define MaxSize 100
+typedef struct{
+    struct TreeNode*data[MaxSize];
+    int top;
+}Stack;
+int GetSize(struct TreeNode*root){
+    if(!root)return 0;
+    return 1+GetSize(root->left)+GetSize(root->right);
+}
+int* postorderTraversal(struct TreeNode* root, int* returnSize) {
+    if(!root){
+        *returnSize=0;
+        return NULL;
+    }
+    //双栈法
+    Stack st1;
+    st1.top=-1;
+    Stack st2;
+    st2.top=-1;
+    *returnSize=GetSize(root);
+    int*result=(int*)malloc(sizeof(int)*(*returnSize));
+    int index=0;
+    st1.data[++st1.top]=root;
+    struct TreeNode*p=root;
+    while(st1.top>=0){
+        p=st1.data[st1.top--];
+        st2.data[++st2.top]=p;
+        if(p->left)st1.data[++st1.top]=p->left;
+        if(p->right)st1.data[++st1.top]=p->right;
+    }
+    while(st2.top>=0){
+        p=st2.data[st2.top--];
+        result[index++]=p->val;
+    }
+    return result;
+}
