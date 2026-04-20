@@ -1,0 +1,22 @@
+struct TreeNode* build(int* preorder, int preL, int preR, int* inorder, int inL, int inR){
+    if(preL>preR)return NULL;
+    //创建一个树节点
+    struct TreeNode* root=(struct TreeNode*)malloc(sizeof(struct TreeNode));
+    int rootVal=preorder[preL];
+    root->val=rootVal;
+    root->left=NULL;
+    root->right=NULL;
+    //在中序遍历中找到该元素
+    int rootIndex;
+    for(rootIndex=inL;rootIndex<=inR;rootIndex++){
+        if(inorder[rootIndex]==rootVal)break;
+    }
+    //记录左子树长度
+    int leftSize=rootIndex-inL;
+    root->left=build(preorder,preL+1,preL+leftSize,inorder,inL,rootIndex-1);
+    root->right=build(preorder,preL+leftSize+1,preR,inorder,rootIndex+1,inR);
+    return root;
+}
+struct TreeNode* buildTree(int* preorder, int preorderSize, int* inorder, int inorderSize) {
+    return build(preorder,0,preorderSize-1,inorder,0,preorderSize-1);
+}
