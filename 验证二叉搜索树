@@ -1,0 +1,9 @@
+bool helper(struct TreeNode*root,struct TreeNode*minNode,struct TreeNode*maxNode){
+    if(!root)return true;
+    if(minNode&&root->val<=minNode->val)return false;
+    if(maxNode&&root->val>=maxNode->val)return false;
+    return helper(root->left,minNode,root)&&helper(root->right,root,maxNode);
+}
+bool isValidBST(struct TreeNode* root) {
+    return helper(root,NULL,NULL);
+}
