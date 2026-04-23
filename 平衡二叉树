@@ -1,0 +1,13 @@
+#define abs(a) ((a)>0?(a):-(a))
+int balance(struct TreeNode*root,bool*bal){
+    if(!root)return 0;
+    int left=balance(root->left,bal);
+    int right=balance(root->right,bal);
+    if(abs(left-right)>1)*bal=false;
+    return left>right?left+1:right+1;
+}
+bool isBalanced(struct TreeNode* root) {
+    bool bal=true;
+    balance(root,&bal);
+    return bal;
+}
