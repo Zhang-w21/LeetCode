@@ -1,0 +1,15 @@
+void reverse_inorder(struct TreeNode*root,int*prev,bool*tag){
+    if(!root)return;
+    reverse_inorder(root->right,prev,tag);
+    if(*prev!=-1||*tag){
+        root->val+=*prev;
+    }
+    *prev=root->val;
+    *tag=true;
+    reverse_inorder(root->left,prev,tag);
+}
+struct TreeNode* convertBST(struct TreeNode* root) {
+      int prev=-1;bool tag=false;
+      reverse_inorder(root,&prev,&tag);
+      return root;
+}
