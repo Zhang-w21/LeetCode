@@ -1,0 +1,28 @@
+void inorder(struct TreeNode*root,int*prev,struct TreeNode**minroot){
+    if(!root)return;
+    inorder(root->left,prev,minroot);
+    if(*prev!=-1){
+        if(root->val<*prev)*minroot=root;
+    }
+    *prev=root->val;
+    inorder(root->right,prev,minroot);
+}
+void reserve_inorder(struct TreeNode*root,int*prev,struct TreeNode**maxroot){
+    if(!root)return;
+    reserve_inorder(root->right,prev,maxroot);
+    if(*prev!=-1){
+        if(root->val>*prev)*maxroot=root;
+    }
+    *prev=root->val;
+    reserve_inorder(root->left,prev,maxroot);
+}
+void recoverTree(struct TreeNode* root) {
+    if(!root)return;
+    int prev1=-1,prev2=-1;
+    struct TreeNode*Minroot,*Maxroot;
+    inorder(root,&prev1,&Minroot);
+    reserve_inorder(root,&prev2,&Maxroot);
+    int temp=Minroot->val;
+    Minroot->val=Maxroot->val;
+    Maxroot->val=temp;
+}
