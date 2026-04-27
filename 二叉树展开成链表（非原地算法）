@@ -1,0 +1,27 @@
+void preorder(struct TreeNode*root,int*nums,int*index){
+    if(!root)return;
+    nums[(*index)++]=root->val;
+    preorder(root->left,nums,index);
+    preorder(root->right,nums,index);
+}
+int GetSize(struct TreeNode*root){
+    if(!root)return 0;
+    return GetSize(root->left)+GetSize(root->right)+1;
+}
+void flatten(struct TreeNode* root) {
+    if(!root)return;
+    int n=GetSize(root);
+    int*result=(int*)malloc(sizeof(int)*n);
+    int index=0;
+    preorder(root,result,&index);
+    root->left=NULL;root->right=NULL;
+    struct TreeNode*p=root;
+    for(int i=1;i<n;i++){
+        struct TreeNode*node=(struct TreeNode*)malloc(sizeof(struct TreeNode));
+        node->val=result[i];
+        node->left=NULL;
+        node->right=NULL;
+        p->right=node;
+        p=node;
+    }
+}
