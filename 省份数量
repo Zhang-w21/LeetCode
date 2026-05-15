@@ -1,0 +1,35 @@
+#define MaxSize 200
+int parent[MaxSize];
+void Init(int n){
+    for(int i=0;i<n;i++){
+        parent[i]=i;
+    }
+}
+int find(int x){
+    if(parent[x]!=x){
+        parent[x]=find(parent[x]);
+    }
+    return parent[x];
+}
+void unionset(int x,int y){
+    int RootX=find(x);
+    int RootY=find(y);
+    if(RootX!=RootY){
+        parent[RootX]=RootY;
+    }
+}
+int findCircleNum(int** isConnected, int isConnectedSize, int* isConnectedColSize) {
+    Init(isConnectedSize);
+    for(int i=0;i<isConnectedSize;i++){
+        for(int j=i+1;j<isConnectedSize;j++){
+            if(isConnected[i][j]==1)
+                unionset(i,j);
+        }
+    }
+    int count=0;
+    for(int i=0;i<isConnectedSize;i++){
+        if(parent[i]==i)
+            count++;
+    }
+    return count;
+}
