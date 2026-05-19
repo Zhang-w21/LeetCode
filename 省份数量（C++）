@@ -1,0 +1,38 @@
+class UnionFind{
+public:
+    vector<int>parent;
+    UnionFind(int n){
+        parent.resize(n);
+        for(int i=0;i<n;i++)parent[i]=i;
+    }
+    int find(int x){
+        if(parent[x]!=x)
+            parent[x]=find(parent[x]);
+        return parent[x];
+    }
+    void UnionSet(int x,int y){
+        int RootX=find(x);
+        int RootY=find(y);
+        if(RootX!=RootY)
+            parent[RootX]=RootY;
+    }
+};
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n=isConnected.size();
+        UnionFind uf(n);
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(isConnected[i][j])
+                    uf.UnionSet(i,j);
+            }
+        }
+        int count=0;
+        for(int i=0;i<n;i++){
+            if(uf.parent[i]==i)
+                count++;
+        }
+        return count;
+    }
+};
